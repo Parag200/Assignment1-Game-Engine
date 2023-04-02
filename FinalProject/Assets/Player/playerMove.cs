@@ -11,33 +11,79 @@ public class playerMove : MonoBehaviour
 
     public ParticleSystem colparticleSystem;
 
-   
+    private Animator animator;
+
+    private bool isJumping;
+    private bool isGrounded;
+    private bool isRunning;
+    private bool isIdle;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-     
+        animator.SetBool("IsIdle", true);
+        isIdle = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-            rb.velocity = new Vector3(verticalInput * speed, rb.velocity.y, horizontalInput * -speed);
+        rb.velocity = new Vector3(verticalInput * speed, rb.velocity.y, horizontalInput * -speed);
 
-
-        if (Input.GetKeyDown(KeyCode.Space) )
+        if (horizontalInput != 0.0f || verticalInput != 0.0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, JumpForce, rb.velocity.z);
-            colparticleSystem.Play();
+            animator.SetBool("IsRunning", true);
+            isRunning = true;
+            Debug.Log("Running");
+
+            animator.SetBool("IsIdle", false);
+            isIdle = false;
+
+            animator.SetBool("IsGrounded", true);
+            isGrounded = true;
+
+            animator.SetBool("IsJumping", false);
+            isRunning = false;
         }
 
-       
-       
+      
+
+        if (horizontalInput == 0.0f && verticalInput == 0.0f)
+        {
+            Debug.Log("Standing Idle");
+            animator.SetBool("IsIdle", true);
+            isIdle = true;
+
+            animator.SetBool("IsRunning", false);
+            isRunning = false;
+
+            animator.SetBool("IsGrounded", true);
+            isGrounded = true;
+
+            animator.SetBool("IsJumping", false);
+            isRunning = false;
+
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetBool("IsJumping", true);
+            isRunning = true;
+
+            rb.velocity = new Vector3(rb.velocity.x, JumpForce, rb.velocity.z);
+            colparticleSystem.Play();
+
+         
+
+        }
+
     }
     
 
