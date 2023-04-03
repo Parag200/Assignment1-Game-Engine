@@ -95,7 +95,7 @@ public class playerMove : MonoBehaviour
             SceneManager.LoadScene("Dead");
         }
 
-        else if (other.gameObject.name == ("Trigger"))
+        else if (other.gameObject.name == ("WinTrigger"))
         {
             SceneManager.LoadScene("Win");
         }
