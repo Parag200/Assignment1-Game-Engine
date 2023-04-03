@@ -2,57 +2,93 @@ Shader "Custom/LavaShader"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        //waving properties
+        _TintColor("Tint Color", Color) = (1,1,1,1)
+        _MainTex("Diffuse", 2D) = "white" {}
+        _Freq("Frequnecy", Range(0,5)) = 3
+        _Speed("Speed", Range(0,100)) = 10
+        _Amp("Amplitude", Range(0,1)) = 0.5
+
+        //overlaying propties
+         _MainTexT("Main", 2D) = "white" {}
+        _OverTex("Over", 2D) = "white" {}
+        _scrollX("Scroll X", Range(-5,5)) = 1
+        _scrollY("Scroll Y", Range(-5,5)) = 1
+
     }
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 200
-
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
-
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
-
-        sampler2D _MainTex;
-
-        struct Input
+        SubShader
         {
-            float2 uv_MainTex;
-        };
 
-        half _Glossiness;
-        half _Metallic;
-        fixed4 _Color;
-      
-        
+            CGPROGRAM
+            //vertex shader as we will modify vertices 
+            #pragma surface surf Lambert vertex:vert
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+            //define overlaying variables
+            sampler2D _OverTex;
+            float _scrollX;
+            float _scrollY;
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+            //inputs for main tex and UVs
+            struct Input
+            {
+                float2 uv_MainTex;
+                float3 vertColor;
+            };
 
-            
+            //define wave variables
+            float4 _TintColor;
+            float _Freq;
+            float _Speed;
+            float _Amp;
+
+
+            //data position, normal and texcoords
+            struct appdata
+            {
+                float4 vertex: POSITION;
+                float3 normal: NORMAL;
+                float4 texcoord:TEXCOORD0;
+                float4 texcoord1: TEXCOORD1;
+                float4 texcoord2: TEXCOORD2;
+            };
+
+
+
+
+
+            void vert(inout appdata v, out Input o)
+            {
+                UNITY_INITIALIZE_OUTPUT(Input,o);
+                //time as sine function goes on 
+                float t = _Time * _Speed;
+                //height of vertices as they move in x axis
+                float waveHeight = sin(t * v.vertex.x * _Freq) * _Amp + sin(t * 2 + v.vertex.x * _Freq * 2) * _Amp;
+                //seting vertex to current vertex height 
+                v.vertex.y = v.vertex.y + waveHeight;
+                //updating noramls 
+                v.normal = normalize(float3(v.normal.x + waveHeight, v.normal.y, v.normal.z));
+                //color changes as height changes 
+                o.vertColor = waveHeight + 2;
+            }
+
+
+
+            sampler2D _MainTex;
+            sampler2D _MainTexT;
+            void surf(Input IN, inout SurfaceOutput o)
+            {
+                //scroll x and y change over time i Unity 
+                _scrollX *= _Time;
+                _scrollY *= _Time;
+                //rate of first texture moving 
+                float3 main = (tex2D(_MainTexT, IN.uv_MainTex + float2(_scrollX, _scrollY)).rgb);
+                //rate of first texture moving, *2 so it is different from main tex
+                float3 over = (tex2D(_OverTex, IN.uv_MainTex + float2(_scrollX * 2.0, _scrollY * 2.0)).rgb);
+                o.Albedo = (main + over) / 2.0;
+
+              
+            }
+            ENDCG
         }
-        ENDCG
-    }
-    FallBack "Diffuse"
+            FallBack "Diffuse"
 }
