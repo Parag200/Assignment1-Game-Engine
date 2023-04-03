@@ -63,4 +63,14 @@ public class SkullLightChange : MonoBehaviour
             rend.sharedMaterial = mat[0];
         }
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+
+        rend.sharedMaterial = mat[3];
+
+    }
+
 }
