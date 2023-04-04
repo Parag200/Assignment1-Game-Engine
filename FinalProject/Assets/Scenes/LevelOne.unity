@@ -1473,12 +1473,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552623543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a4c99162cc8ba46a533ec689927922, type: 3}
+  m_Script: {fileID: 11500000, guid: fad8f765dd9164f41beee8f1733202c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dofShader: {fileID: 4800000, guid: 3571b3ff212e6dc48a3b0c8cdcdc89cb, type: 3}
 --- !u!1 &572751187
 GameObject:
   m_ObjectHideFlags: 0
