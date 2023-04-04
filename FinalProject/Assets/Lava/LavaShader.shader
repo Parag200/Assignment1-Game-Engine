@@ -52,10 +52,6 @@ Shader "Custom/LavaShader"
                 float4 texcoord2: TEXCOORD2;
             };
 
-
-
-
-
             void vert(inout appdata v, out Input o)
             {
                 UNITY_INITIALIZE_OUTPUT(Input,o);
@@ -70,8 +66,6 @@ Shader "Custom/LavaShader"
                 //color changes as height changes 
                 o.vertColor = waveHeight + 2;
             }
-
-
 
             sampler2D _MainTex;
             sampler2D _MainTexT;

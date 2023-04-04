@@ -5,17 +5,14 @@ Shader "Custom/DoorOutlineShader"
       
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _OutColor ("Ouline Color", Color) = (1,1,1,1)
-        _Out ("Ouline width", Range(0.0,1.0)) = 1
+        _Out ("Ouline width", Range(.0,0.1)) = .005
        
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-      
-        ZWrite off
-
+        ZWrite off //avoid being drawn in depth buffer
+        //drawing outline
         CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Lambert vertex:vert
 
         struct Input
@@ -23,41 +20,45 @@ Shader "Custom/DoorOutlineShader"
             float2 uv_MainTex;
         };
 
-        sampler2D _MainTex;
         float _Out;
         float4 _OutColor;
 
+        //offseting vertices normal by outline width value 
         void vert(inout appdata_full v)
         {
             v.vertex.xyz += v.normal * _Out;
         }
 
-        void surf (Input IN, inout SurfaceOutput o)
-        {
-            o.Emission = _OutColor.rgb;
-        }
-        ENDCG
-
-        ZWrite On
-        CGPROGRAM 
-        
-        #pragma surface surf Lambert
-
-        struct Input
-        {
-        float2 uv_MainTex;
-        };
-
         sampler2D _MainTex;
 
         void surf(Input IN, inout SurfaceOutput o)
         {
-            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+            //drawing the outline in a color
+            o.Emission = _OutColor.rgb;
         }
-
         ENDCG
 
+        ZWrite on
 
+
+        //rendering main texture 
+        CGPROGRAM
+        #pragma surface surf Lambert
+
+        struct Input
+        {
+            float2 uv_MainTex;
+        };
+
+        sampler2D _MainTex;
+
+        //albedo to main texture 
+        void surf(Input IN, inout SurfaceOutput o)
+        {
+            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb;
+        }
+        ENDCG
+      
     }
     FallBack "Diffuse"
 }
