@@ -1,22 +1,55 @@
-**Group Assignment ICG 100782088**
+**Final Project ICG 100782088**
 
-Using Lava Run prototype from assignment 1 and implementing a vertex/fragment shader, a visual effect and a post-processing effect.
-Reusing the base component, illumnation, color grading, optional shader, pre-recorded demos.
+**Intergrations**
 
-Will be using the same clips from video report assignment 1, adding new clips explaining the new effects for the criteria. Thus in the video
-I will be showing a time stamp to skip to as the first 9-10 minutes will be the same from assignment 1 with. This time stamp will forward
-the report to the where I explain the newly implemented effects. 
 
-(Wasn't unable to find a group, worked solo)
 
-**LowRes PostProcessing Effect**
 
-By creating a new render texture, I set the size of the dimensions to what I want my game to look like. Aiming for a retro-pixelated style,
-I chose to make the dimensions of the render texutre 135. To make the new pixelated look not distorted, the Filter Mode for the render Texture
-was set to Point. A Raw image was then made using the render texture with low re as its texture, Making the sure the raw image was set
-properly to scale as it will be what the camera is seeing. The final step was creating a script and attaching it to the main camera. 
-This script is able to turn on the low res render texture by changing the camera target texture via Input.GetKeyDown. Now when the player 
-presses the button "T" the game will go into the low res style.
+
+**Texturing**
+
+
+**LUT**
+
+
+
+
+**Visual Effect: Particle System and Decals**
+
+Using the particle system in Unity, I modified it so that it would be a small burst with the material being a png image of dust. This 
+indicates the player that their player has jump. With a colored outline of the dust, the speed , duration and amount of particles were changed.
+Since the system would play once the player jump by pressing space, I did not want to have the particles flaring up the screen. Instead the 
+particle system that was the final product is more gentle and smooth to the players, even if they jump alot the visual effect of the particle
+system will not disturb the overall environment of Lava Run. Finally after the script was added on to the player, the particle system was then 
+made into a child while having the MainPlayer the parent. This allows the particle system to move with the players movement.
+
+
+**Additional Effects**
+**Toon Shading**
+
+
+
+**Water Wave & Texture Overlaying**
+
+
+**Outlining**
+
+Outlining is used in the final project by having the final door have an outline of white. The reason why I added this into the game was to make 
+the door pop out more to the player since white is a distinct color in my game. A material was made and attached to it is the outline shader, in this shader 
+we are making 2 CGPROGRAM's where the first program is drawing and showing the outline and the second program is getting and showing the main texture as the 
+albedo. 1 OutlineColor and 1 Outline Width declaring in the properties. In the first CGPROGRAM, we have ZWrite off so we can avoid drawing in the depth buffer. 
+Using Lambert vertex:ver since we will be modifying vertices, inside void vert(appdata_full v), we are setting the offest of the vertices normal by the amount of the 
+outline width. Next inside the void surf we set the o.Emission to the OutColor so that the outline can be see and has its own color that can be seen in the game.
+
+**Post-Processing Effect: Pixelation**
+
+I implemented a pixelation effect into my game because I wanted my game to have a retro style to it like back in the 90s. And after seeing what the pixelating effect
+can do, I am satisfied with the job it has done. We start off making a C# script and attach it to the main camera. Inside the script we will be using OnRenderTexture
+with source and destination in its parameters. Here the source indicates the current frame being buffered while the destination outputs where the effect will be drawn. 
+Next we downscale the image by dividing its height and width by 5, creating RenderTextureFormat to make sure source is using the proper format. Create a RenderTexture
+called r that has its set value on the downsize image with RenderTexture r = RenderTexture.GetTemporary(width, height, 0, format). Temporary as its more space efficent and 
+will release render texture when done, 0 for the depth buffer. Finally we draw the downscaled image set to r then upscaling it to proper size into destination.
+
 
 **Vertex Fragment Shader Shadows**
 
@@ -28,16 +61,7 @@ of the object, we mulitply them using the diffuse lighitng. In return allows us 
 light sources in Unity. Bump mapping code was added into the vertex fragment shader, allowing the Torii gate's to have a detailed wood material 
 from 3Dtextures.me 
 
-**Visual Effect**
-
-Using the particle system in Unity, I modified it so that it would be a small burst with the material being a png image of dust. This 
-indicates the player that their player has jump. With a colored outline of the dust, the speed , duration and amount of particles were changed.
-Since the system would play once the player jump by pressing space, I did not want to have the particles flaring up the screen. Instead the 
-particle system that was the final product is more gentle and smooth to the players, even if they jump alot the visual effect of the particle
-system will not disturb the overall environment of Lava Run. Finally after the script was added on to the player, the particle system was then 
-made into a child while having the MainPlayer the parent. This allows the particle system to move with the players movement.
-
-**Platforms, Walls, End Door**
+**Platforms, Walls**
 
 The platforms in the low-fidelity game uses a bump shader effect to give the pop to the bricks on the texture. This was done by using the in class Shader code for from the lecture 3 (Bump Mapping) and applying the texture's normal map and height map. This gave us the bumping effect but my platforms didn't look visually pleasing relative to the light source from the bottom of the game level. To fix this I increased the slider to the max value being 10. This allowed the heightMap to show more of the vertex offset within the shader. This method was also used on the walls surrounding the platforms. My scene benefits from this shader beacuse of the directional and point lighting in my scene. With the main light sources coming from the lava, the bottom portion of the platform is well lit while the top has some lighting due to teh huge lava floor. This allows the heightMap to be used effectively as the partial light hitting the top platform can show the differences of vertex offset to the player clearly.
 
@@ -51,6 +75,8 @@ For the Toon Ramp Ligthing matieral, I used my own drawing of white to black for
 
 
 **Slide Deck Link:** https://docs.google.com/presentation/d/1YXP5EyvWLPdmMngdt-yb-HTUtmF8Y_R9x3TgRF-LtyE/edit?usp=sharing
+
+**Video Report:** 
 
 
 **Resources (APA7)**
