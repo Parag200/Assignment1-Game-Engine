@@ -23,10 +23,23 @@ particle system that was the final product is more gentle and smooth to the play
 system will not disturb the overall environment of Lava Run. Finally after the script was added on to the player, the particle system was then 
 made into a child while having the MainPlayer the parent. This allows the particle system to move with the players movement.
 
+I wanted to add this blood decal onto the starting wood cages because it would give my game an evil vibe to it paired with the lava.
+To add Decals we want to have a image overlaying a texture but not actually be apart of the main texture itself. We start off with a shader that 
+has 2 properties one for holding the main texture and the other for holding the decal. Inside the void surf function we have 2 differnt float4 equal 
+to the main and decal texture. Finally we add the code to choose when the texture would be displayed, if the red channel of the b texture is above 0.9, 
+the other texture will be displayed. Overall the final result is the blood decal being shown onto the wooden cages at the starting platforms.
+
 
 **Additional Effects**
 **Toon Shading**
 
+For toon shading I used it on the end skulls and have them change to it once the player jumps and lands inside its collider. The reason I did this was because 
+the toon shader on the skull looked gold and I wanted the player to feel some kind of accomplishment when they reached the final platform. With our texture going
+from white to black, we create a material with a shader attached called ToonShader. Here we will be having a input for our rampTex while using the toonRamp lighting 
+model. Inside the LightingToonRamp we will be getting the diffuse lighting by using the dot product on the surface normals and lightdirection.  After that we times it by 0.5
+and add 0.5 so that it can be set to 1D so that it can be mapped, however we set it to a float2 called rh so that it can be sampled because if it were 1D it coulded be sampled.
+Next we have the float3 ramp representing the toon shading appiled per current pixel and this is done by getting the tex2D(ramptexture we use and rh).rgb. Finally we get the color
+by multiplying surface Albedo, Lightcolor and ramp. Set the c to the Albedo then return the c. In return shows toon lighting of a object based on the ramp texture. 
 
 
 **Lava Wave & Texture Overlaying**
@@ -44,8 +57,7 @@ void surf. We have the Main and OvermainTex as well as 2 ranges ScrollX and Scro
 during the game time duration. Next we set a fixed4 value for a and b, each value holding the main and overmaintex. Same code when applying the maintex but this time we are
 adding a float2 with ScrollX and ScrollY, this will have the maintex moving with the time. We do the same for the overmaintex but this time we multiply the ScrollX and ScrollY
 by 2 so that it has a different rate than the maintex. We does this because if they were both the same rate it would be hard to see both textures moving inside the game. 
-Finally we add a code to where it checks if the maintex red channel is higher than 0.9 and if it is switch and show the other texture. 
-
+Finally we get the average of the 2 rates by adding them together then dividing by 2.
 
 **Outlining**
 
