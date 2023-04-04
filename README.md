@@ -11,8 +11,21 @@
 
 **LUT**
 
+The first step is to get the default netural LUT and take a screenshot of the game. Going into photoshop CS6 we import the screenshot with the LUT table on top. 
+Here we play around the hue and saturation until we find a good color theme we like, I ended up going for the cool purple and the green nightvision. After
+we export the certain LUTs into unity. We now create a shader, 3 materials and a C# script. The shader will have Cull and ZWrite off as well as ZTest Always, this
+allows our effect to be seen on the screen. We use the unity bulit in CG "UnityCG.cginc" as well as define how much colors will be inside out LUT. After getting the 
+POSITION and TEXCOORD from appdata and v2f, we make a input for the LUT as well as a float4 for the texel size of our LUT. Inside our fixed4 frag (v2f i) : SV_Target
+we will add precision to avoid the LUT going overboard, we do this by dividing colx, coly and threshold with the LUT's z, w and colors values. Next we calculate the offest
+to the map the image of the LUT, we do this by getting the x and y offset using red and green. Using cell to find the maximum amount of blue inside the LUT and lutPOS to determine the 
+position of the LUT to then smaple onto screen. This is done dividing the cell with colors and adding on the x and y offset. gradedCOl is then holding the LUT texture while 
+also holding the lutpos, this will replace the orginal color after finding the LUT position. Finally we lerp between col and gradedCol, as the contribution is there ranging from 
+0-1 where 0 is fully col and 1 is fully graded col. 
 
-
+After we get the 3 materials assigned to this shader and apply each one with each different LUT. Inside the C#Script we will be having a public array that holds renderTexture current on the screen. 
+Here inside the update function we have when buttons Z,X,C are pressed the x value is changed from 0-2 where x is the value of the arrays. Now inside the OnRenderImage, the array renderMaterial will be 
+displayed with x indicating which LUT will be displayed. After saving, we can add 3 to the array inside the Unity inspector and drag and drop the 3 LUT's. Now in game when we rotate between Z,X,C the LUT corresponding 
+to that x value will be displayed. 
 
 **Visual Effect: Particle System and Decals**
 
@@ -29,7 +42,6 @@ has 2 properties one for holding the main texture and the other for holding the 
 to the main and decal texture. Finally we add the code to choose when the texture would be displayed, if the red channel of the b texture is above 0.9, 
 the other texture will be displayed. Overall the final result is the blood decal being shown onto the wooden cages at the starting platforms.
 
-
 **Additional Effects**
 **Toon Shading**
 
@@ -40,7 +52,6 @@ model. Inside the LightingToonRamp we will be getting the diffuse lighting by us
 and add 0.5 so that it can be set to 1D so that it can be mapped, however we set it to a float2 called rh so that it can be sampled because if it were 1D it coulded be sampled.
 Next we have the float3 ramp representing the toon shading appiled per current pixel and this is done by getting the tex2D(ramptexture we use and rh).rgb. Finally we get the color
 by multiplying surface Albedo, Lightcolor and ramp. Set the c to the Albedo then return the c. In return shows toon lighting of a object based on the ramp texture. 
-
 
 **Lava Wave & Texture Overlaying**
 
