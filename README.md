@@ -2,12 +2,31 @@
 
 **Intergrations**
 
+When creating the game scene we have 4 planes as the walls and one plane on the bottom that will act as the lava. Cubes were added in as the platforms placed in 
+the air with a set direction from one big platform aka the start to the other big platform aka the end. Bump mapping textures on the added objects with 4 point lights being
+placed below the lava acting how real life lava would be as it emits light. Some platforms had animation done to them to move in a certain way, this would increase player 
+diffuctly. The animations were run on loops so that it would keep repeating during the game. Skulls were added in to indicate the beginning and end of the game as they were
+placed at the start and end platforms. The wooden cages were made with cubes and was on the starting platform because it gave the starting platform more filling rather then a 
+empty boring platform. 
 
+Adding the main player was from blender having animations for its Idle and Running. Respective to when the player is not moving and moving, the idle or running 
+animation would be played. Attaching the camera to the player would ensure the 3d person style to the game while also add the particle system. The particle system is
+attached to the player so that everytime the player jumps, the dust particles would burst out. Changes on the particle system was to make the particles come out in burst as well 
+as changing the render material to a dust material I found online. 
 
-
+The purpose of the wave/overlaying lava is to have movement and flow in the game as without it, the game would feel stale as the player is platforming, changing 
+the value the overtex rate is going to 4 so in game the lava foam is moving faster to indicate a fast environment. The purpose of the pixelation effect is to 
+replicate a 90s style game where I modified the number that divides the height and width to 5 so that the pixels would be more present. The purpose of the outline
+effect is to catch the players eye when they reach the final platform since the color is white it will be more popping in my game scene. The purpose of the Toon shading 
+is to show off the golden shaded effect to the player as they reach the end of the game, jumping into the skulls collider will trigger it to change into the toon shading
+material. I added this so it can show the players that you made it type of vibe by showing the gold. 
 
 **Texturing**
 
+The overall texturing goal here was to have a dark gloomy vibe with the flowing lava be its light source illumnating the game scene. I wanted the platforms 
+surrounding environment have this castle image so I used free 3D textures that were detailed stone for the platforms and the walls. The next step was to add something 
+different but nothing crazy that would mislead the player about the environment, here I decided to use a wood texture and have it on the wood cages that were at the start 
+of the game. 
 
 **LUT**
 
@@ -53,6 +72,7 @@ and add 0.5 so that it can be set to 1D so that it can be mapped, however we set
 Next we have the float3 ramp representing the toon shading appiled per current pixel and this is done by getting the tex2D(ramptexture we use and rh).rgb. Finally we get the color
 by multiplying surface Albedo, Lightcolor and ramp. Set the c to the Albedo then return the c. In return shows toon lighting of a object based on the ramp texture. 
 
+**Additional Effects**
 **Lava Wave & Texture Overlaying**
 
 Firstly going over the Lava wave we have 4 set properties being the Freq, Amp, Speed and ColorTint. Using Lambert vertex:vert as we will be changing vertices. 
@@ -70,6 +90,7 @@ adding a float2 with ScrollX and ScrollY, this will have the maintex moving with
 by 2 so that it has a different rate than the maintex. We does this because if they were both the same rate it would be hard to see both textures moving inside the game. 
 Finally we get the average of the 2 rates by adding them together then dividing by 2.
 
+**Additional Effects**
 **Outlining**
 
 Outlining is used in the final project by having the final door have an outline of white. The reason why I added this into the game was to make 
