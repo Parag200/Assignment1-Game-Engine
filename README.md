@@ -29,7 +29,22 @@ made into a child while having the MainPlayer the parent. This allows the partic
 
 
 
-**Water Wave & Texture Overlaying**
+**Lava Wave & Texture Overlaying**
+
+Firstly going over the Lava wave we have 4 set properties being the Freq, Amp, Speed and ColorTint. Using Lambert vertex:vert as we will be changing vertices. 
+After declaring them and having the inputs have the MainTex and vertColor we get the position, normal and texcoords inside appdata. Inside the void vert function,
+we will be having a float t equal _Time and the speed since the sine function will be using it. Now we find the waveHeight by using the sin function, multiplying
+t, v.vertex.x ,freq * amp then doing it again by adding the same thing but this time have t and freq*2. What this does is maniuplate the vertices in the x axis.
+After we update the vertices in the x axis making sure the current height is the current height we do this by having v.vertex.y = v.vertex.y + waveHeight.
+Next we update the noramls by having normalx, y, z and wave height normalized then equalled to the normal. Finally the vertColor will change base on the height of wave, 
+we do this by having the sum of the waveHeight and 2.
+
+Secondly when talking about the texture overlaying, since it has nothing to do with vertices it can be in the same shader as the wave and all the work is done in the
+void surf. We have the Main and OvermainTex as well as 2 ranges ScrollX and ScrollY. Here we have ScrollX and ScrollY multiplied by _Time as the textures will be moving 
+during the game time duration. Next we set a fixed4 value for a and b, each value holding the main and overmaintex. Same code when applying the maintex but this time we are
+adding a float2 with ScrollX and ScrollY, this will have the maintex moving with the time. We do the same for the overmaintex but this time we multiply the ScrollX and ScrollY
+by 2 so that it has a different rate than the maintex. We does this because if they were both the same rate it would be hard to see both textures moving inside the game. 
+Finally we add a code to where it checks if the maintex red channel is higher than 0.9 and if it is switch and show the other texture. 
 
 
 **Outlining**
