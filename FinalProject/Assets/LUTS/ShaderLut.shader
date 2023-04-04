@@ -27,11 +27,11 @@ Shader "Custom/ShaderLut"
                  float4 vertex : POSITION;
                  float2 uv : TEXCOORD0;
                  };
-        struct v2f
-        {
-            float2 uv : TEXCOORD0;
-            float4 vertex : SV_POSITION;
-        };
+                struct v2f
+                {
+                    float2 uv : TEXCOORD0;
+                    float4 vertex : SV_POSITION;
+                };
                  v2f vert(appdata v)
                  {
                      v2f o;
@@ -58,8 +58,7 @@ Shader "Custom/ShaderLut"
 
                  //calculating the offset to map the image to the lut
                  //red and green offsets based on main LUT
-                 float xOffset = halfColX + col.r * threshold /
-                COLORS;
+                 float xOffset = halfColX + col.r * threshold / COLORS;
                  float yOffset = halfColY + col.g * threshold;
 
                  //max color of blue offset based on main LUT

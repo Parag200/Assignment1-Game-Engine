@@ -17,6 +17,7 @@ public class playerMove : MonoBehaviour
     private bool isGrounded;
     private bool isRunning;
     private bool isIdle;
+    
 
 
     // Start is called before the first frame update
@@ -26,11 +27,14 @@ public class playerMove : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator.SetBool("IsIdle", true);
         isIdle = true;
+        this.GetComponent<Blur>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+      
+
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -80,8 +84,14 @@ public class playerMove : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, JumpForce, rb.velocity.z);
             colparticleSystem.Play();
 
-         
+        }
 
+       
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+
+            this.GetComponent<Blur>().enabled = true;
         }
 
     }
