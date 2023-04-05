@@ -132,10 +132,12 @@ The Specular shininess was increased in value because then it would only allow l
 
 For the Toon Ramp Ligthing matieral, I used my own drawing of white to black for the shader to pick up and use when the light reflects off the object. This end results show the skull looking golden with the behind of the skull lit very nicely from the lava lighting. This helps my scene look better as it gives me the freedom to choose the amount of lighting displayed on the skull based off the texture given, allowing the skulls to catch the players eyes as visually pleasing.
 
+1 to turn off lighting, Z X C for different LUTs. Was able to figure out how to toggle off and on pixelation so to acitvate it please activate it by enabling the blur script in the mainCamera gameobject.
+
 
 **Slide Deck Link:** https://docs.google.com/presentation/d/1YXP5EyvWLPdmMngdt-yb-HTUtmF8Y_R9x3TgRF-LtyE/edit?usp=sharing
 
-**Video Report:** 
+**Video Report:** https://youtu.be/uhn0umIe7hM
 
 
 **Resources (APA7)**
