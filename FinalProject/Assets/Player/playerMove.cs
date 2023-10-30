@@ -27,7 +27,7 @@ public class playerMove : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator.SetBool("IsIdle", true);
         isIdle = true;
-        this.GetComponent<Blur>().enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class playerMove : MonoBehaviour
         {
             animator.SetBool("IsRunning", true);
             isRunning = true;
-            Debug.Log("Running");
+            //Debug.Log("Running");
 
             animator.SetBool("IsIdle", false);
             isIdle = false;
@@ -63,7 +63,7 @@ public class playerMove : MonoBehaviour
 
         if (horizontalInput == 0.0f && verticalInput == 0.0f)
         {
-            Debug.Log("Standing Idle");
+            //Debug.Log("Standing Idle");
             animator.SetBool("IsIdle", true);
             isIdle = true;
 
@@ -114,7 +114,6 @@ public class playerMove : MonoBehaviour
         {
             SceneManager.LoadScene("Win");
         }
-
 
     }
 }
