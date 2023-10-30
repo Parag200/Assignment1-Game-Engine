@@ -17,8 +17,8 @@ public class playerMove : MonoBehaviour
     private bool isGrounded;
     private bool isRunning;
     private bool isIdle;
-    
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +54,9 @@ public class playerMove : MonoBehaviour
 
             animator.SetBool("IsJumping", false);
             isRunning = false;
+
+            AudioManager.Instance.playFX("Footsteps", 0.4f);
+           
         }
 
       
@@ -83,6 +86,8 @@ public class playerMove : MonoBehaviour
 
             rb.velocity = new Vector3(rb.velocity.x, JumpForce, rb.velocity.z);
             colparticleSystem.Play();
+
+            AudioManager.Instance.playFX("Jump", 1f);
 
         }
 
