@@ -17,6 +17,8 @@ public class playerMove : MonoBehaviour
     private bool isGrounded;
     private bool isRunning;
     private bool isIdle;
+    public bool end = false;
+    public bool endcuslose = false;
 
     
 
@@ -108,11 +110,13 @@ public class playerMove : MonoBehaviour
         if (other.gameObject.name == ("DeathTrigger"))
         {
             SceneManager.LoadScene("Dead");
+            endcuslose = true;
         }
 
         else if (other.gameObject.name == ("WinTrigger"))
         {
             SceneManager.LoadScene("Win");
+            end = true;
         }
 
     }
