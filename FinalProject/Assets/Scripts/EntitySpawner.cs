@@ -31,8 +31,14 @@ public class EntitySpawner : MonoBehaviour
     private void SpawnEntity()
     {
         // Instantiate the entity
-        GameObject newEntity = Instantiate(entityPrefab, transform.position, Quaternion.identity);
+        // GameObject newEntity = Instantiate(entityPrefab, transform.position, Quaternion.identity);
+        GameObject newEntity = ObjectPooling.instance.GetPooledObject();
 
+        if (newEntity != null)
+        {
+            newEntity.transform.position = transform.position;
+            newEntity.SetActive(true);
+        }
         // Attach the EntityMovement script to control the entity's movement
         EntityMovement movementScript = newEntity.GetComponent<EntityMovement>();
         if (movementScript != null)
@@ -42,6 +48,6 @@ public class EntitySpawner : MonoBehaviour
         }
 
         // Set up auto-deletion after 5 seconds
-        Destroy(newEntity, 5.0f);
+       // Destroy(newEntity, 5.0f);
     }
 }

@@ -3,12 +3,14 @@ using UnityEngine;
 public class PlatformTrigger : MonoBehaviour
 {
     public EntitySpawner entitySpawner;
+    public bool isTriggered;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            entitySpawner.StartSpawning(); // Start spawning when the player enters the trigger
+            entitySpawner.StartSpawning();
+            isTriggered = true;
         }
     }
 
@@ -16,7 +18,14 @@ public class PlatformTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            entitySpawner.StopSpawning(); // Stop spawning when the player exits the trigger
+            entitySpawner.StopSpawning();
+            isTriggered = false;
         }
+    }
+
+    // Method to check if the platform has been triggered
+    public bool IsPlatformTriggered()
+    {
+        return isTriggered;
     }
 }
