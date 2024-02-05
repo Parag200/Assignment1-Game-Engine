@@ -9,6 +9,7 @@ TagManager:
   - lava
   - tesT
   - Half
+  - wintrig
   layers:
   - Default
   - TransparentFX
